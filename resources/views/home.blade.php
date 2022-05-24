@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    this is flight system
                 </div>
             </div>
         </div>
