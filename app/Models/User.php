@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+//has many seats
+    public function seats()
+    {
+        return $this->hasMany(Seats::class);
+    }
+//has many seats
+    public function flights()
+    {
+        return $this->hasMany(Flight::class);
+    }   
+
 }
