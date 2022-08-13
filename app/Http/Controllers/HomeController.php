@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
  
 use App\Models\Flight;
+use App\Models\Seats;
+use App\Models\Places;
 
 class HomeController extends Controller
 {
@@ -28,6 +30,14 @@ class HomeController extends Controller
         // all flights after the current date
         $flights = Flight::where('date', '>=', date('Y-m-d'))->get();
         return view('home', compact('flights'));
+    }
+    public function travel()
+    {
+        $history = Seats::where('user_id', auth()->user()->id)->pluck('flight_id');
+        $flights = Flight::wherein('id',$history)->pluck('to');
+        $places= Places::wherein('nearest_to',$flights)->get();
+        
+        return view('travel', compact('places'));
     }
     //function to redirect to history
     public function history()

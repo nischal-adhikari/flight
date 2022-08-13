@@ -15,44 +15,53 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href=" {{ asset('css/responsive.css') }}">
+      <!-- fevicon -->
+      <link rel="icon" href="images/fevicon.png" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }} ">
+      <!-- Tweaks for older IEs-->
+      <!-- owl stylesheets --> 
+      <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }} ">
+     
+
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+
+      <div class="header">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Flight Management System
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
+               <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                     <div class="full">
+                        <div class="center-desk">
+                           <div class="logo"> <a href="index.html"><h2>Flight Management System</h2></a> </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                     <div class="menu-area">
+                        <div class="limit-box">
+                           <nav class="main-menu">
+                              <ul class="menu-area-main">
+                                 <li class="active"> <a href="/">Home</a> </li>
+                                 <li><a href="/travel">Travel</a></li>
+                                 @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                                 <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                                 @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                                 <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                                 @endif
                         @else
-                            <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -66,6 +75,12 @@
                                     <a class="dropdown-item" href="{{ route('history') }}">
                                         History
                                     </a>
+                                 
+                                    @if(auth()->user()->is_admin ==1)
+                                       <a class="dropdown-item" href="/admin">
+                                          Dashboard
+                                       </a>
+                                    @endif
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
@@ -73,14 +88,30 @@
                                 </div>
                             </li>
                         @endguest
-                    </ul>
-                </div>
+                              </ul>
+                           </nav>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </nav>
+         </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+         <main class="py-4">
+               @yield('content')
+         </main>
+      </div>
+
+    <script>
+
+$(".nochange").click(function () {
+    return false;
+});
+
+
+
+    </script>
+
+
 </body>
 </html>

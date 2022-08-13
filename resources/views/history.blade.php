@@ -1,63 +1,66 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-Upcoming Flights
-
-@if(!empty($flight_after))
-<!-- list $flight_after -->
-<ul>
-    @foreach($flight_after as $flight)
-    <li>
-            <p>Flight Name : {{ $flight->flight_name }}  Seat Number : {{ $flight->seat_number }} </p> 
-            <p>Origin   :{{ $flight->from }} </p>
-            <p>Destination :{{ $flight->to }}</p>
-            <p>Date :{{ $flight->date }}   Time :{{ $flight->time }}</p>
-            <p>Price :{{$flight->price}}</p>
-      <p>  <a href="{{ route('flights.show', $flight->id) }}"> show more</a> </p>
-    </li>
-    @endforeach
-@endif
 
 
-All flights before today
-@if(!empty($flight_before))
-<!-- list $flight_before -->
-<ul>
-    @foreach($flight_before as $flight)
-    <li>
-        <p>Flight Name : {{ $flight->flight_name }}  Seat Number : {{ $flight->seat_number }} </p> 
-            <p>Origin   :{{ $flight->from }} </p>
-            <p>Destination :{{ $flight->to }}</p>
-            <p>Date :{{ $flight->date }}   Time :{{ $flight->time }}</p>
-            <p>Price :{{$flight->price}}</p>
-        <a href="{{ route('flights.show', $flight->id) }}">
-            {{ $flight->flight_name }}
-        </a>
-    </li>
-    @endforeach
-
-
-@endif
-               
-
-
-
-
-                </div>
+<!-- traveling -->
+<div id="travel" class="traveling">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 ">
+                  <div class="titlepage">
+                     <h2>Your Travelling Flight History is</h2>
+                     <span>Welcome to Flight Management System</span> 
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-</div>
+
+            <h2>Upcoming Flights</h2>
+            <hr>
+            <div class="row">
+               @if(!empty($flight_after))
+               @foreach($flight_after as $flight)
+               <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                  <div class="traveling-box">
+                     <i><img src="images/plane-img.png" alt="icon" height="120px" width="150px"/></i>
+                     <h3>{{ $flight->flight_name }} </h3>
+                     <p> {{ $flight->from }} -  {{ $flight->to }}</p>
+                     <p> {{ $flight->date }} , {{ $flight->time }}</p>
+                     <h5>Seat Number: {{ $flight->seat_number }} </h5>
+                     <h5>Rs. {{$flight->price}} </h5>
+                     <div class="read-more">
+                        <a  href="{{ route('flights.show', $flight->flight_id) }}">Show More</a>
+                     </div>
+                  </div>
+               </div>
+               @endforeach
+               @endif
+            </div>
+
+            <br><br>
+            <h2>All flights before today</h2>
+            <hr>
+            <div class="row">
+               @if(!empty($flight_before))
+               @foreach($flight_before as $flight)
+               <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                  <div class="traveling-box">
+                     <i><img src="images/plane-img.png" alt="icon" height="120px" width="150px"/></i>
+                     <h3>{{ $flight->flight_name }} </h3>
+                     <p> {{ $flight->from }} -  {{ $flight->to }}</p>
+                     <p> {{ $flight->date }} , {{ $flight->time }}</p>
+                     <h5>Seat Number: {{ $flight->seat_number }} </h5>
+                     <h5>Rs. {{$flight->price}} </h5>
+                     <div class="read-more">
+                        <a  href="{{ route('flights.show', $flight->id) }}">{{ $flight->flight_name }}</a>
+                     </div>
+                  </div>
+               </div>
+               @endforeach
+               @endif
+            </div>
+         </div>
+      </div>
+      <!-- end traveling -->
+      
 @endsection

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flight;
+use App\Models\Seats;
+
 use Illuminate\Http\Request;
 
 class FlightController extends Controller
@@ -10,8 +12,10 @@ class FlightController extends Controller
 //book a seat
     public function book(Request $request, $flight)
     {
+        
         $flight = Flight::find($flight);
-        $seat = $flight->seats()->where('seat_number', $request->seat_number)->first();
+        foreach($request->seat as $s){
+        $seat = $flight->seats()->where('seat_number', $s)->first();
         if($seat->status == null){
             $seat->user_id = auth()->user()->id; 
             $seat->status = 1;
@@ -21,7 +25,15 @@ class FlightController extends Controller
         else{
             $message = 'Seat already booked';
         }
+        }
         return redirect()->back()->with('message', $message);
+    }
+    public function show(Flight $flight)
+    {
+        //view flight_show page with flight data
+
+        $seat = Seats::where('flight_id',$flight->id)->get();
+        return view('flight_show', compact('flight','seat'));
     }
     
     public function index()
@@ -34,9 +46,11 @@ class FlightController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function search(Request $request)
     {
-        //
+       
+        $flights =Flight::where('from','like',$request->from)->where('to','like',$request->to)->where('date', '>=', date('Y-m-d'))->get();
+        return view('search', compact('flights'));        
     }
 
     /**
@@ -69,11 +83,7 @@ class FlightController extends Controller
      * @param  \App\Models\Flight  $flight
      * @return \Illuminate\Http\Response
      */
-    public function show(Flight $flight)
-    {
-        //view flight_show page with flight data
-        return view('flight_show', compact('flight'));
-    }
+   
 
     /**
      * Show the form for editing the specified resource.
