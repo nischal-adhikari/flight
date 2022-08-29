@@ -3,6 +3,8 @@
 @section('content')
 
 @if(!empty($flight))
+
+
 <form action="/flights/{{$flight->id}}/book" method = "post">
         @csrf
 
@@ -36,12 +38,19 @@
                     @foreach($seat as $key=> $s)
                     @if($key%4 == 0)
                     @endif
-                    <span style=" margin:7px;padding:7px;display:inline-block;
+                    <span  style=" margin:7px;padding:7px;display:inline-block;
                                 {{$s->status == 1?'background-color:red':'background-color:green'}}">
                                 <input type="checkbox" style=" height: 30px;
                                 width: 30px;" 
                                 name ="seat[]" value="{{$s->seat_number}}" 
-                                @if($s->status == 1) onclick="return false;" disabled="disabled" @endif  >
+                                @if($s->status == 1) class="hovertext" onclick="return false;" disabled="disabled" @endif 
+                                data-hover=" @if(auth()->user()->is_admin==1)
+                                   @if(($user=App\Models\User::where('id',$s->user_id)->get()->first())!= null)
+                                    {{$user->name}}
+                                    {{$user->email}}
+                                    @endif
+                                @endif"
+                                 >
                             </span>
                             @endforeach
                             </form> 
@@ -68,14 +77,14 @@
                         <div class="col-12">
                             <div class="d-flex flex-column">
                                 <p class="text mb-1">Card Number</p>
-                                <input class="form-control mb-3" type="text" placeholder="1234 5678 435678">
+                                <input class="form-control mb-3" type="number" placeholder="1234 5678 435678">
                             </div>
                         </div>
                         
                         <div class="col-6">
                             <div class="d-flex flex-column">
                                 <p class="text mb-1">Expiry</p>
-                                <input class="form-control mb-3" type="text" placeholder="MM/YYYY">
+                                <input class="form-control mb-3" type="date" placeholder="MM/YYYY">
                             </div>
                         </div>
                         

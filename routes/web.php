@@ -66,3 +66,5 @@ Route::post('/search/flights', [App\Http\Controllers\FlightController::class, 's
 Route::get('/travel', [App\Http\Controllers\HomeController::class, 'travel'])->name('travel');
 
 
+Route::get('/invoice/{flight}', [App\Http\Controllers\FlightController::class, 'invoice'])->name('invoice.show');
+

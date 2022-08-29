@@ -30,7 +30,37 @@
       <!-- Tweaks for older IEs-->
       <!-- owl stylesheets --> 
       <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }} ">
-     
+     <style>
+.hovertext {
+  position: relative;
+  border-bottom: 1px;
+}
+
+.hovertext:before {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  height:50px;
+  background-color: white;
+  color: #000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  transition: opacity 1s ease-in-out;
+
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 110%;
+}
+
+.hovertext:hover:before {
+  opacity: 1;
+  visibility: visible;
+}
+
+</style>
 
 </head>
 <body>

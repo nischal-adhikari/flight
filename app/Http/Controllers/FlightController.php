@@ -118,7 +118,15 @@ class FlightController extends Controller
 //delete all seats
         $flight->seats()->delete();
 
+        for ($i=0; $i < $flight->total_seats; $i++) 
+            { 
+                $seat = new Seats;
+                $seat->flight_id = $flight->id;
+                $num = $flight->flight_name .'-'.($i+1);
+                $seat->seat_number = $num;
 
+                $seat->save();
+            }
         //redirect to the flights page
         return redirect('/home');
     }
@@ -135,5 +143,10 @@ class FlightController extends Controller
         $flight->delete();
         //redirect to the flights page
         return redirect('/admin/flights');
+    }
+    public function invoice(Flight $flight){
+    $seats = Seats::where('flight_id', $flight->id)->where('user_id',auth()->user()->id)->get();
+    return view('invoice',compact('seats','flight'));
+
     }
 }
